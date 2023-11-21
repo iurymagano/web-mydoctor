@@ -15,6 +15,8 @@
  
     --primary: #0165FC;
     --primary-foreground: 210 40% 98%;
+
+    --primary-font: #2D3748;
  
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -72,10 +74,11 @@
   }
   body {
     @apply bg-background text-foreground h-full;
+    font-family: var(--font-inter);
   }
 
   html {
-    font-family: var(--font-inter);
+
     @apply h-full
     }
   h1 {
