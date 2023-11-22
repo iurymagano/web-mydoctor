@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 interface SideBarProps {
-  menu?: Array<MenuObj>;
+  menu: Array<MenuObj>;
 }
 
 interface MenuObj {

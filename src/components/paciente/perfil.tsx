@@ -17,7 +17,7 @@ const Perfil = async () => {
           <span className="ml-2 text-2xl font-semibold text-[--primary]">
             {session.nome}
           </span>
-          <span className="ml-2  text-base  ">{session.email}</span>
+          <span className="ml-2  text-base ">{session.email}</span>
         </div>
       </div>
     </div>
