@@ -10,7 +10,9 @@ export default async function AuthLayout({
 }) {
   const session = await getServerSession(authOptions);
   if (session) {
-    redirect("/dashboard");
+    const rotaToType =
+      session.typeUser === "PROFISSIONAL" ? "profissionais" : "dashboard";
+    redirect(rotaToType);
   }
 
   return (

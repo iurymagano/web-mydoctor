@@ -1,46 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { HiHome } from "react-icons/hi";
-import { FaUsers } from "react-icons/fa6";
-import { BsFillChatDotsFill } from "react-icons/bs";
-import { MdDataThresholding } from "react-icons/md";
-import { FaCalendarAlt } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-const Sidebar = () => {
-  const [open, setOpen] = useState(true);
+
+interface SideBarProps {
+  menu?: Array<MenuObj>;
+}
+
+interface MenuObj {
+  title: string;
+  icon: any;
+  route: string;
+}
+
+const Sidebar = ({ menu }: SideBarProps) => {
+  const [open, setOpen] = useState(false);
   const route = useRouter();
   const pathname = usePathname();
-
-  const Menus = [
-    {
-      title: "Dashboard",
-      icon: <HiHome size={20} className="text-white" />,
-      route: "/dashboard",
-    },
-    {
-      title: "Paciente",
-      icon: <FaUsers size={18} className="text-white" />,
-      route: "/users",
-    },
-    {
-      title: "Bate papo",
-      icon: <BsFillChatDotsFill size={18} className="text-white" />,
-      route: "/chat",
-    },
-    {
-      title: "Relatorios",
-      icon: <MdDataThresholding size={20} className="text-white" />,
-      route: "/reports",
-    },
-    {
-      title: "Agenda",
-      icon: <FaCalendarAlt size={18} className="text-white" />,
-      route: "/schedule",
-    },
-  ];
 
   const handleClickNavigation = (routePage: string) => {
     route.push(routePage);
@@ -55,11 +33,17 @@ const Sidebar = () => {
       <div
         className={` ${
           open ? "w-72" : "w-20 "
-        } relative h-full border-t-[1px] bg-[#F8F9FA] pl-5 pr-6 pt-4 duration-300`}
+        } relative h-full border-t-[1px] bg-[#F8F9FA] ${
+          open ? "pl-5 pr-6" : "p-0"
+        }  pt-4 duration-300`}
       >
-        <div className="flex h-full flex-col justify-between">
+        <div
+          className={`flex h-full flex-col ${
+            !open && "items-center"
+          }  justify-between`}
+        >
           <ul className="pt-6">
-            {Menus.map((Menu, index) => (
+            {menu.map((Menu, index) => (
               <li
                 key={index}
                 className={`flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-gray-300  ${

@@ -4,6 +4,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../app/api/auth/[...nextauth]/route";
 import { AvatarNotification } from "../AvatarNotification/AvatarNotification";
+import Link from "next/link";
 
 const Header = async () => {
   const session = await getServerSession(authOptions);
@@ -20,8 +21,10 @@ const Header = async () => {
           size={24}
           className="cursor-pointer text-[#7A8699] transition hover:text-[--primary]"
         />
-        <AvatarNotification src={session.image} />
-        <span>{session.nome}</span>
+        <Link href="/perfil" className="flex items-center gap-2">
+          <AvatarNotification src={session.image} />
+          <span>{session.nome}</span>
+        </Link>
       </div>
     </Card>
   );
