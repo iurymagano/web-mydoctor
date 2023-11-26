@@ -49,8 +49,7 @@ const Sidebar = ({ menu }: SideBarProps) => {
                 className={`flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-gray-300  ${
                   pathname == Menu.route ? "bg-white" : "bg-transparent"
                 }
-                  "",
-                )} hover:bg-white 
+               hover:bg-white 
               `}
                 onClick={() => handleClickNavigation(Menu.route)}
               >

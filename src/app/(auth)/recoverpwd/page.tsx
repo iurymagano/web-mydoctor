@@ -10,7 +10,7 @@ const RecoverPwd = () => {
         <div className="flex h-full w-full items-center pb-12">
           <div className="flex w-full  items-center gap-32 max-lg:gap-16 ">
             <div className="flex min-w-fit flex-1 flex-col gap-4">
-              <span className="text-center text-5xl font-semibold max-md:text-4xl">
+              <span className="text-center text-5xl font-semibold max-md:text-2xl">
                 Crie sua conta
               </span>
               <span className="text-center text-base  max-md:text-sm">

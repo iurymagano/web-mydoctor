@@ -47,15 +47,15 @@ const FormLogin = () => {
   return (
     <form
       onSubmit={handleSubmit(handleLogin)}
-      className="flex min-w-fit flex-1 flex-col gap-4"
+      className="flex min-w-fit flex-1 flex-col gap-4 overflow-auto max-md:gap-2"
     >
-      <span className="text-center text-5xl font-semibold max-md:text-4xl">
+      <span className="text-center text-4xl font-bold max-md:text-2xl ">
         Acessar Conta
       </span>
       <span className="text-center text-base  max-md:text-sm">
         Agende sua consulta com facilidade agora
       </span>
-      <div className="mt-6 flex flex-col gap-4">
+      <div className="mt-6 flex flex-col gap-4 max-sm:mt-2">
         <div>
           <Input
             type="email"

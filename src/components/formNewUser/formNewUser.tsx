@@ -75,9 +75,9 @@ const FormNewUser = () => {
     <>
       <form
         onSubmit={handleSubmit(handleClickCreateUser)}
-        className="flex min-w-fit flex-1 flex-col gap-2"
+        className="flex flex-1 flex-col gap-2"
       >
-        <span className="text-center text-5xl font-semibold max-md:text-4xl">
+        <span className="max-md:text-xlxl text-center text-3xl font-semibold">
           Crie sua conta
         </span>
         <span className="text-center text-base  max-md:text-sm">
