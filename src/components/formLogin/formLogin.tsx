@@ -1,14 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { FcGoogle } from "react-icons/fc";
 import { Input } from "@/components/ui/input";
-// import Icon from "@/assets/svg/teammedical.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useState } from "react";
+import BtnGoogle from "../ui/btnGoogle";
 
 type UserProps = {
   email: string;
@@ -16,6 +16,7 @@ type UserProps = {
 };
 
 const FormLogin = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -32,16 +33,20 @@ const FormLogin = () => {
   const router = useRouter();
 
   const handleLogin = async ({ email, password }: UserProps) => {
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-    if (result?.error) {
-      return;
-    }
+    if (!loading) {
+      setLoading(true);
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        setLoading(false);
+        return;
+      }
 
-    router.replace("/dashboard");
+      router.replace("/dashboard");
+    }
   };
 
   return (
@@ -82,13 +87,11 @@ const FormLogin = () => {
             </span>
           )}
         </div>
-        <Button type="submit">Entrar</Button>
-        <Button
-          className="gap-4 bg-white text-slate-600 shadow"
-          onClick={() => signIn("google")}
-        >
-          <FcGoogle size={32} /> Sign in with Google
+        <Button type="submit" loading={loading}>
+          Entrar
         </Button>
+        <BtnGoogle onClick={() => signIn("google")} />
+
         <Link
           href="/recoverpwd"
           className="text-center"

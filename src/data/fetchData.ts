@@ -3,6 +3,7 @@ interface FetchDataParams {
   method?: "POST" | "PUT" | "DELETE" | "GET";
   token?: string;
   path?: string;
+  uploadImage?: boolean;
 }
 
 interface ResponseData {
@@ -13,7 +14,7 @@ interface ResponseData {
 interface OptionsParams {
   method: string;
   headers: { [key: string]: string };
-  body?: string;
+  body?: string | object;
 }
 
 export async function fetchData({
@@ -21,6 +22,7 @@ export async function fetchData({
   path,
   method,
   token,
+  uploadImage,
 }: FetchDataParams): Promise<ResponseData> {
   try {
     const METHOD = method || "POST";
@@ -31,11 +33,14 @@ export async function fetchData({
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
+      body: data,
     };
 
-    if (METHOD !== "GET") {
+    if (METHOD !== "GET" && !uploadImage) {
       options.body = JSON.stringify(data);
     }
+
+    console.log(options);
     const respFetch = await fetch(
       `${process.env.NEXT_PUBLIC_API}/${path}`,
       options,
@@ -44,6 +49,7 @@ export async function fetchData({
 
     return resp;
   } catch (error) {
+    console.log(error);
     return { error: "Ocorreu um erro ao processar a requisição." };
   }
 }

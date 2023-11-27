@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { AvatarProfile } from "../ui/avatar";
 import Banner from "../ui/banner";
 import { getServerSession } from "next-auth";
+import UploadImage from "../ui/uploadImage";
 
 const Perfil = async () => {
   const session = await getServerSession(authOptions);
@@ -20,6 +21,7 @@ const Perfil = async () => {
           <span className="ml-2  text-base ">{session.email}</span>
         </div>
       </div>
+      <UploadImage />
     </div>
   );
 };

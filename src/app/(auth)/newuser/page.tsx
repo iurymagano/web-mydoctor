@@ -10,7 +10,6 @@ const NewUser = () => {
           <div className="flex w-full  items-center gap-14 max-lg:gap-16 max-sm:gap-0">
             <FormNewUser />
             <div className="w-full max-w-[537px]  max-md:hidden">
-              {/* <Icon /> */}
               <Image
                 width={1}
                 height={1}

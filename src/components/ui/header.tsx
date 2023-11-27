@@ -3,7 +3,7 @@ import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../app/api/auth/[...nextauth]/route";
-import { AvatarNotification } from "../AvatarNotification/AvatarNotification";
+import { AvatarNotification } from "../avatarNotification/AvatarNotification";
 import Link from "next/link";
 
 const Header = async () => {

@@ -39,6 +39,7 @@ const FormNewUser = () => {
   const [dataLogin, setDataLogin] = useState({
     typeUsuario: "PACIENTE",
   });
+  const [loading, setLoading] = useState(false);
 
   const onCheck = ({ fieldName, value }: onCheckParams) => {
     const keys = ["PACIENTE", "PROFISSIONAL"];
@@ -54,28 +55,35 @@ const FormNewUser = () => {
     password,
     email,
   }: UserProps) => {
-    const data = { email, password, nome, typeUser: dataLogin.typeUsuario };
-    const resp = await fetchData({ data, path: "usuario", method: "POST" });
+    if (!loading) {
+      setLoading(true);
 
-    if (resp?.error) {
-      const message = resp.error;
-      toast.error(message);
-      return;
-    }
+      const data = { email, password, nome, typeUser: dataLogin.typeUsuario };
 
-    if (resp?.respData) {
-      toast.success("Usuario salvo com sucesso!");
+      const resp = await fetchData({ data, path: "usuario", method: "POST" });
+
+      if (resp?.error) {
+        setLoading(false);
+        const message = resp.error;
+        toast.error(message);
+        return;
+      }
+
+      setLoading(false);
+      if (resp?.respData) {
+        toast.success("Usuario salvo com sucesso!");
+      }
+      setTimeout(() => {
+        route.replace("/");
+      }, 2000);
     }
-    setTimeout(() => {
-      route.replace("/");
-    }, 2000);
   };
 
   return (
     <>
       <form
         onSubmit={handleSubmit(handleClickCreateUser)}
-        className="flex flex-1 flex-col gap-2"
+        className="flex min-w-fit flex-1 flex-col gap-2"
       >
         <span className="max-md:text-xlxl text-center text-3xl font-semibold">
           Crie sua conta
@@ -111,7 +119,9 @@ const FormNewUser = () => {
               )}
             </div>
           ))}
-          <Button type="submit">Criar conta</Button>
+          <Button type="submit" loading={loading}>
+            Criar conta
+          </Button>
 
           <Link
             href="/"
