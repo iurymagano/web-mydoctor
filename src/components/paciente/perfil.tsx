@@ -1,27 +1,47 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+"use client";
+
 import { AvatarProfile } from "../ui/avatar";
 import Banner from "../ui/banner";
-import { getServerSession } from "next-auth";
 import UploadImage from "../ui/uploadImage";
+import { Modal } from "../ui/modal";
+import { useState } from "react";
+import { usePacienteStore } from "@/store/pacienteStore";
+import { fetchData } from "@/data/fetchData";
 
-const Perfil = async () => {
-  const session = await getServerSession(authOptions);
+const Perfil = () => {
+  const { paciente, update } = usePacienteStore();
+  const [open, setOpen] = useState(false);
+
+  const onCallback = async (resp: any) => {
+    await fetchData({
+      data: { image: resp.url, id: paciente.id },
+      method: "PUT",
+      path: "pacientes",
+      token: paciente.token,
+    });
+    setOpen(false);
+
+    update({ image: resp.url });
+  };
   return (
     <div className="flex w-full flex-col">
       <Banner />
       <div className="flex px-6">
         <AvatarProfile
-          className="mt-[-40px] h-28 w-28 rounded-lg"
-          src="https://img.freepik.com/fotos-premium/sorriso-de-retrato-e-homem-com-confianca-positiva-e-despreocupado-contra-um-fundo-de-estudio-cinza-enfrentar-pessoa-do-sexo-masculino-e-humano-com-uma-atitude-alegre-liberdade-e-modelo-com-alegria-canada-e-relaxar_590464-177008.jpg"
+          className="mt-[-40px] h-28 w-28 cursor-pointer rounded-lg"
+          src={paciente.image}
+          onClick={() => setOpen(true)}
         />
         <div className=" ml-2 flex flex-col items-start justify-start self-center">
           <span className="ml-2 text-2xl font-semibold text-[--primary]">
-            {session.nome}
+            {paciente?.nome}
           </span>
-          <span className="ml-2  text-base ">{session.email}</span>
+          <span className="ml-2  text-base ">{paciente?.email} </span>
         </div>
       </div>
-      <UploadImage />
+      <Modal onOpenChange={setOpen} open={open}>
+        <UploadImage onCallback={onCallback} />
+      </Modal>
     </div>
   );
 };

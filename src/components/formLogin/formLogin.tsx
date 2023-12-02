@@ -67,6 +67,7 @@ const FormLogin = () => {
             label="Email"
             placeholder="Digite seu email"
             {...register("email")}
+            sizeInput="lg"
           />
           {errors.email && (
             <span className="pl-2 text-xs text-red-500">
@@ -79,6 +80,7 @@ const FormLogin = () => {
             type="password"
             label="Senha"
             placeholder="Digite sua senha"
+            sizeInput="lg"
             {...register("password")}
           />
           {errors.password && (
@@ -87,10 +89,10 @@ const FormLogin = () => {
             </span>
           )}
         </div>
-        <Button type="submit" loading={loading}>
+        <Button type="submit" loading={loading} size="lg">
           Entrar
         </Button>
-        <BtnGoogle onClick={() => signIn("google")} />
+        <BtnGoogle onClick={() => signIn("google")} size="lg" />
 
         <Link
           href="/recoverpwd"

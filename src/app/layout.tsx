@@ -4,7 +4,7 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryProvider } from "@/context/QueryProvider";
 import AuthProvider from "@/context/AuthProvider";
-// import Script from "next/script";
+import favi from "../../public/favicon.png";
 
 const sofia = Sofia_Sans({
   subsets: ["latin"],
@@ -19,6 +19,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "MyDoctor",
   description: "Agende sua consulta",
+  icons: {
+    icon: "https://res.cloudinary.com/dlr7micek/image/upload/v1701486538/assets/favicon_mveqhp.png",
+  },
 };
 
 export default function RootLayout({

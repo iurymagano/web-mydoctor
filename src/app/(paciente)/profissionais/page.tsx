@@ -19,7 +19,7 @@ const DashBoard = async () => {
               nota={profissional.nota}
               name={profissional.nome}
               profissao={profissional.typeProfissional?.nome}
-              image="https://img.freepik.com/fotos-gratis/medico-sorridente-com-estretoscopio-isolado-em-cinza_651396-974.jpg"
+              image={profissional.image}
             />
           ))}
       </div>

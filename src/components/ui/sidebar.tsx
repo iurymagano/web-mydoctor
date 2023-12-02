@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LuLogOut } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 
 interface SideBarProps {
   menu: Array<MenuObj>;
@@ -29,14 +30,25 @@ const Sidebar = ({ menu }: SideBarProps) => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex  ">
       <div
         className={` ${
           open ? "w-72" : "w-20 "
         } relative h-full border-t-[1px] bg-[#F8F9FA] ${
           open ? "pl-5 pr-6" : "p-0"
-        }  pt-4 duration-300`}
+        }  relative pt-4 duration-300`}
       >
+        {open ? (
+          <FaChevronCircleLeft
+            className="absolute right-[-8px] top-[0px] cursor-pointer text-[--primary]"
+            onClick={() => setOpen(false)}
+          />
+        ) : (
+          <FaChevronCircleRight
+            className="absolute right-[-8px] top-[0px] cursor-pointer text-[--primary]"
+            onClick={() => setOpen(true)}
+          />
+        )}
         <div
           className={`flex h-full flex-col ${
             !open && "items-center"

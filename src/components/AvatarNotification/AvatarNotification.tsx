@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface AvatarProps {
-  src: string;
+  src?: string;
   className?: string;
 }
 

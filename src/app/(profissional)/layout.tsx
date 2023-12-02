@@ -22,7 +22,7 @@ export default async function AuthLayout({
   return (
     <div style={{ height: "calc(100% - 48px)" }} className="h-full w-full ">
       <Header />
-      <div className="flex h-full w-full bg-[#F8F9FA] pb-5">
+      <div className="flex h-full w-full bg-[#f0f0f1] pb-5">
         <Sidebar menu={MenuSideBarProfissional} />
         <div className="h-full w-full rounded-lg">{children}</div>
       </div>

@@ -110,6 +110,7 @@ const FormNewUser = () => {
                 type={input.type}
                 label={input.label}
                 placeholder={input.placeholder}
+                sizeInput="lg"
                 {...register(input.fieldName as keyof CreateUserFormData)}
               />
               {errors[input.fieldName as keyof CreateUserFormData] && (
@@ -119,7 +120,7 @@ const FormNewUser = () => {
               )}
             </div>
           ))}
-          <Button type="submit" loading={loading}>
+          <Button type="submit" loading={loading} size="lg">
             Criar conta
           </Button>
 

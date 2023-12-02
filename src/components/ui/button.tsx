@@ -21,9 +21,9 @@ const buttonVariants = cva(
         link: " text-primary bg-[#DBEAFE] hover:bg-[#DBEAFE/90]",
       },
       size: {
-        default: "h-12 px-4 py-2",
+        default: "h-9 rounded-md px-3",
         sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        lg: "h-12 px-4 py-2",
         icon: "h-10 w-10",
       },
     },

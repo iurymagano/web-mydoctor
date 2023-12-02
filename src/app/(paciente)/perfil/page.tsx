@@ -1,6 +1,6 @@
 import Perfil from "@/components/paciente/perfil";
 
-const PerfilPage = async () => {
+const PerfilPage = () => {
   return (
     <div className="flex">
       <Perfil />

@@ -1,43 +1,63 @@
 "use client";
-
 import Uppy from "@uppy/core";
 import Webcam from "@uppy/webcam";
 import { Dashboard } from "@uppy/react";
+//@ts-ignore
+import ptBR from "@uppy/locales/lib/pt_BR";
 
-// Don't forget the CSS: core and the UI components + plugins you are using.
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 import "@uppy/webcam/dist/style.min.css";
 import { fetchData } from "@/data/fetchData";
+import { useSession } from "next-auth/react";
+import { useRef } from "react";
+const optionsUppy = {
+  locale: ptBR,
+  autoClose: true,
+  autoProceed: true,
+  restrictions: {
+    maxNumberOfFiles: 1,
+  },
+};
 
-// Don’t forget to keep the Uppy instance outside of your component.
-const uppy = new Uppy().use(Webcam);
+const uppy = new Uppy(optionsUppy).use(Webcam);
 
-const UploadImage = () => {
+interface UploadImageProps {
+  onCallback: (obj: object) => void;
+}
+
+const UploadImage = ({ onCallback }: UploadImageProps) => {
+  const { data: session } = useSession() as any;
+
+  const ref = useRef();
   uppy.on("complete", (result) => {
     if (result) {
       saveImage(result);
     }
   });
 
-  const saveImage = async (result) => {
-    console.log(result.successful[0]);
+  const saveImage = async (result: any) => {
     const successFull = result.successful[0].data;
-    const data = new FormData();
-    data.append("file", successFull);
-    console.log(data);
-
-    const resp = await fetchData({
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21lIjoiSXVyeSBNYWdhbm8iLCJlbWFpbCI6Iml1cnlAdGVzdGUuY29tIiwiaWF0IjoxNzAxMDM2MzMwLCJleHAiOjE3MDM2MjgzMzAsInN1YiI6IjI0In0.KGzVdbB2Yp_kH-EHb4z4sSjutvaOADhf8Ll-MqZn5AU",
-      path: "images/upload",
-      data,
-      uploadImage: true,
-    });
-
-    console.log(resp);
+    if (successFull.name !== ref.current && session?.token) {
+      ref.current = successFull.name;
+      const data = new FormData();
+      data.append("file", successFull);
+      const resp = await fetchData({
+        token: session.token,
+        path: "images/upload",
+        data,
+      });
+      onCallback(resp);
+    }
   };
 
-  return <Dashboard uppy={uppy} plugins={["Webcam"]} />;
+  return (
+    <Dashboard
+      className=" max-sm:w-[85vw]"
+      uppy={uppy}
+      plugins={["Webcam"]}
+      proudlyDisplayPoweredByUppy={false}
+    />
+  );
 };
 export default UploadImage;

@@ -1,9 +1,10 @@
+import axios from "axios";
+
 interface FetchDataParams {
   data?: object;
   method?: "POST" | "PUT" | "DELETE" | "GET";
   token?: string;
   path?: string;
-  uploadImage?: boolean;
 }
 
 interface ResponseData {
@@ -11,43 +12,28 @@ interface ResponseData {
   error?: string;
 }
 
-interface OptionsParams {
-  method: string;
-  headers: { [key: string]: string };
-  body?: string | object;
-}
-
 export async function fetchData({
   data,
   path,
   method,
   token,
-  uploadImage,
 }: FetchDataParams): Promise<ResponseData> {
   try {
-    const METHOD = method || "POST";
+    const METHOD = method || "post";
 
-    const options: OptionsParams = {
+    const options = {
       method: METHOD,
+      baseURL: process.env.NEXT_PUBLIC_API,
+      url: `${process.env.NEXT_PUBLIC_API}/${path}`,
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: data,
+      data: data,
     };
 
-    if (METHOD !== "GET" && !uploadImage) {
-      options.body = JSON.stringify(data);
-    }
+    const resp = await axios.request(options);
 
-    console.log(options);
-    const respFetch = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/${path}`,
-      options,
-    );
-    const resp: ResponseData = await respFetch.json();
-
-    return resp;
+    return resp.data;
   } catch (error) {
     console.log(error);
     return { error: "Ocorreu um erro ao processar a requisição." };
