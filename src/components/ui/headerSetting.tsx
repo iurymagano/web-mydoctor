@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { CiSettings } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { AvatarNotification } from "../avatarNotification/AvatarNotification";
 import { usePacienteStore } from "@/store/pacienteStore";
+import { AvatarNotification } from "../avatarNotification/AvatarNotification";
 
 export const HeaderSettings = () => {
   const { paciente } = usePacienteStore();
