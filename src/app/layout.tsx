@@ -4,7 +4,7 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryProvider } from "@/context/QueryProvider";
 import AuthProvider from "@/context/AuthProvider";
-import favi from "../../public/favicon.png";
+import { NextProvider } from "@/context/NexUiProvider";
 
 const sofia = Sofia_Sans({
   subsets: ["latin"],
@@ -32,9 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sofia.variable} ${inter.variable}`}>
       <body>
-        <QueryProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </QueryProvider>
+        <NextProvider>
+          <QueryProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </QueryProvider>
+        </NextProvider>
       </body>
       {/* <Script
         src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"

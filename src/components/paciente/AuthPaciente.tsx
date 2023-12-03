@@ -19,6 +19,7 @@ const AuthPaciente = () => {
           data,
           path: "search/id/pacientes",
         });
+        console.log(resp);
         const paciente: Paciente = { ...resp.respData, token: session.token };
         update(paciente);
       }

@@ -30,7 +30,7 @@ const Sidebar = ({ menu }: SideBarProps) => {
   };
 
   return (
-    <div className="flex  ">
+    <div className="flex pb-4 ">
       <div
         className={` ${
           open ? "w-72" : "w-20 "

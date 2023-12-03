@@ -34,7 +34,7 @@ export const MenuSideBarProfissional = [
 export const MenuSideBarPaciente = [
   {
     title: "Profissionais",
-    icon: <HiHome size={20} className="text-white" />,
+    icon: <FaUsers size={20} className="text-white" />,
     route: "/profissionais",
   },
   {
