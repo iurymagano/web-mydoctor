@@ -29,8 +29,10 @@ const Mensagens = () => {
     );
     socket.on("message", (data) => {
       console.log(data);
+      //@ts-ignore
       const findMessage = mensagens.some((item) => item.id === data.id);
       if (!findMessage) {
+        //@ts-ignore
         setMensagens((prev: object) => [...prev, data]);
       }
     });
