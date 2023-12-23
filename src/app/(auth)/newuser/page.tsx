@@ -13,6 +13,7 @@ const NewUser = () => {
               <Image
                 width={1}
                 height={1}
+                layout="cover"
                 className="h-full w-full object-cover"
                 src={TeamMedical}
                 alt="banner"

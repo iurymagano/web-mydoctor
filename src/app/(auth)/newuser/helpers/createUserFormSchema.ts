@@ -8,8 +8,7 @@ export const createUserFormSchema = z
       .string()
       .min(6, "A senha precisa de no minimo 6 caracteres")
       .regex(/[~!@#\$%\^&\*\(\)_+\-\[\]{}|':,./<>?]/, {
-        message:
-          "A senha deve conter caracteres não alfanuméricos ~!@#$%^&*()_+-[]{}|':,./<>?",
+        message: "A senha deve conter caracteres especiais",
       }),
     confirmPassword: z.string(),
   })

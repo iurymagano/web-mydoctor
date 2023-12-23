@@ -4,42 +4,75 @@ import { Input } from "@/components/ui/input";
 import { fetchData } from "@/data/fetchData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { z } from "zod";
 import TeamMedical from "@/assets/gifs/Healthprofessionalteam.gif";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 type UserProps = {
-  email: string;
+  password: string;
+  confirmPassword: string;
 };
 
 const RecoverPwd = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const token = searchParams.get("key");
+    if (!token) {
+      router.push("/");
+      return;
+    }
+
+    setToken(token);
+  }, [router, searchParams]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UserProps>({
     resolver: zodResolver(
-      z.object({
-        email: z.string().email("Formato de e-mail invalido"),
-      }),
+      z
+        .object({
+          password: z
+            .string()
+            .min(6, "A senha precisa de no minimo 6 caracteres")
+            .regex(/[~!@#\$%\^&\*\(\)_+\-\[\]{}|':,./<>?]/, {
+              message: "A senha deve conter caracteres especiais",
+            }),
+          confirmPassword: z.string(),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message: "As senhas devem coincidir.",
+          path: ["confirmPassword"],
+        }),
     ),
   });
 
-  const handleSendEmail = async ({ email }: UserProps) => {
+  const handleNewPass = async ({ password }: UserProps) => {
     setLoading(true);
-    const resp = await fetchData({ data: { email }, path: "sendchangepass" });
+    const resp = await fetchData({
+      data: { password },
+      path: "newpass",
+      token,
+    });
 
-    if (resp?.error) {
-      toast.error("Nenhum usuario encontrado com esse email");
+    if (resp.error) {
       setLoading(false);
+      toast.error(
+        "Expirou o tempo para alteração de senha. Envie o email novamente!",
+      );
       return;
     }
-    setSuccess(true);
     setLoading(false);
+    setSuccess(true);
   };
 
   return (
@@ -50,19 +83,27 @@ const RecoverPwd = () => {
             {!success && (
               <div className="flex min-w-fit flex-1 flex-col gap-4">
                 <span className="text-center text-4xl font-semibold max-md:text-2xl">
-                  Esqueci minha senha
+                  Alterar senha
                 </span>
                 <form
-                  onSubmit={handleSubmit(handleSendEmail)}
+                  onSubmit={handleSubmit(handleNewPass)}
                   className="mt-6 flex flex-col gap-6"
                 >
                   <Input
-                    type="email"
-                    label="Email"
-                    placeholder="Digite seu email"
+                    type="password"
+                    label="Senha"
+                    placeholder="Digite sua senha"
                     sizeInput="lg"
-                    {...register("email")}
-                    msgErro={errors.email?.message}
+                    {...register("password")}
+                    msgErro={errors.password?.message}
+                  />
+                  <Input
+                    type="password"
+                    label="Confirmação de senha"
+                    placeholder="Confirme sua senha"
+                    sizeInput="lg"
+                    {...register("confirmPassword")}
+                    msgErro={errors.confirmPassword?.message}
                   />
                   <Button
                     size={"lg"}
@@ -72,23 +113,13 @@ const RecoverPwd = () => {
                   >
                     Enviar
                   </Button>
-
-                  <Link
-                    href="/"
-                    className="text-center"
-                    style={{ textDecoration: "underline" }}
-                  >
-                    Retornar para o Login
-                  </Link>
                 </form>
               </div>
             )}
-
             {success && (
               <div className="flex flex-col gap-6">
-                <span className="text-center  text-lg font-medium max-md:text-2xl">
-                  Foi encaminhado para seu email as instruções para alteração de
-                  senha.
+                <span className="text-center  text-2xl font-medium text-green-600 max-md:text-2xl">
+                  Sua senha foi alterada com sucesso.
                 </span>
                 <Link
                   href="/"

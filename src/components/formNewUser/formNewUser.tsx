@@ -112,15 +112,13 @@ const FormNewUser = () => {
                 placeholder={input.placeholder}
                 sizeInput="lg"
                 {...register(input.fieldName as keyof CreateUserFormData)}
+                msgErro={
+                  errors[input.fieldName as keyof CreateUserFormData]?.message
+                }
               />
-              {errors[input.fieldName as keyof CreateUserFormData] && (
-                <span className="pl-2 text-xs text-red-500">
-                  {errors[input.fieldName as keyof CreateUserFormData]?.message}
-                </span>
-              )}
             </div>
           ))}
-          <Button type="submit" loading={loading} size="lg">
+          <Button type="submit" loading={loading} size="lg" className="mt-2">
             Criar conta
           </Button>
 
@@ -129,7 +127,7 @@ const FormNewUser = () => {
             className="text-center"
             style={{ textDecoration: "underline" }}
           >
-            Voltar para Login
+            Retornar para o Login
           </Link>
         </div>
       </form>

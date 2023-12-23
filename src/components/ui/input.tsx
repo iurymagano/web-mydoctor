@@ -46,7 +46,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const styleRequired = required && "after:text-red-500 after:content-['*']";
 
     return (
-      <div className={`relative  flex w-full flex-col ${className}`}>
+      <div className={`relative flex w-full flex-col ${className}`}>
         <label className={`${styleRequired}  ml-2 text-sm text-gray-500`}>
           {label}
         </label>

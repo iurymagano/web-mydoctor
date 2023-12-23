@@ -25,7 +25,8 @@ const Profissionais = () => {
       token: paciente.token,
     });
     if (!respLikes.error) {
-      const idsProfissional = respLikes.respData.map((item: any) => item.id);
+      const idsProfissional =
+        respLikes.respData && respLikes.respData.map((item: any) => item.id);
       setIdsProfissionais(idsProfissional);
     }
 

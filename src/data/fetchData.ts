@@ -35,7 +35,7 @@ export async function fetchData({
 
     return resp.data;
   } catch (error) {
-    console.log(error);
-    return { error: "Ocorreu um erro ao processar a requisição." };
+    //@ts-ignore
+    return { error: error?.response?.data?.error };
   }
 }

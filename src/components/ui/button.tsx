@@ -38,16 +38,21 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   loading?: boolean;
+  onClick?: () => void;
   children: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, loading, children, ...props }, ref) => {
+  ({ className, variant, size, loading, children, onClick, ...props }, ref) => {
+    const handleClick = () => {
+      if (!loading && onClick) onClick();
+    };
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
+        onClick={handleClick}
       >
         {loading ? <Loading /> : children}
       </button>

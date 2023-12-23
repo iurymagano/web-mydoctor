@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import BtnGoogle from "../ui/btnGoogle";
+import { ToastContainer, toast } from "react-toastify";
 
 type UserProps = {
   email: string;
@@ -41,6 +42,7 @@ const FormLogin = () => {
         redirect: false,
       });
       if (result?.error) {
+        toast.error("email/password inválido");
         setLoading(false);
         return;
       }
@@ -60,7 +62,7 @@ const FormLogin = () => {
       <span className="text-center text-base  max-md:text-sm">
         Agende sua consulta com facilidade agora
       </span>
-      <div className="mt-6 flex flex-col gap-4 max-sm:mt-2">
+      <div className="mt-6 flex flex-col gap-6 max-sm:mt-2">
         <div>
           <Input
             type="email"
@@ -68,12 +70,8 @@ const FormLogin = () => {
             placeholder="Digite seu email"
             {...register("email")}
             sizeInput="lg"
+            msgErro={errors.email?.message}
           />
-          {errors.email && (
-            <span className="pl-2 text-xs text-red-500">
-              {errors.email?.message}
-            </span>
-          )}
         </div>
         <div>
           <Input
@@ -82,14 +80,10 @@ const FormLogin = () => {
             placeholder="Digite sua senha"
             sizeInput="lg"
             {...register("password")}
+            msgErro={errors.password?.message}
           />
-          {errors.password && (
-            <span className="pl-2 text-xs text-red-500">
-              {errors.password?.message}
-            </span>
-          )}
         </div>
-        <Button type="submit" loading={loading} size="lg">
+        <Button type="submit" loading={loading} size="lg" className="mt-2">
           Entrar
         </Button>
         <BtnGoogle onClick={() => signIn("google")} size="lg" />
@@ -112,6 +106,7 @@ const FormLogin = () => {
           </strong>
         </Link>
       </div>
+      <ToastContainer />
     </form>
   );
 };
