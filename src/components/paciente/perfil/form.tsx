@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dataInputs } from "./helpers/dataInput";
 import { usePacienteStore } from "@/store/pacienteStore";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ type CreatePacienteFormData = z.infer<typeof createFormPacienteSchema>;
 type FormKeys = "nome" | "email" | "documento" | "telefone";
 
 export const Form = () => {
+  const [loading, setLoading] = useState(false);
   const { paciente, update } = usePacienteStore();
   const {
     register,
@@ -43,7 +44,9 @@ export const Form = () => {
   }, [paciente, setValue]);
 
   const handleSavePaciente = handleSubmit(async (formData) => {
+    setLoading(true);
     const data = { ...formData, id: paciente.id };
+
     const respPaciente = await fetchData({
       data,
       path: "pacientes",
@@ -56,6 +59,7 @@ export const Form = () => {
 
       toast.success("Dados atualizado com sucesso");
     }
+    setLoading(false);
   });
 
   return (
@@ -78,7 +82,7 @@ export const Form = () => {
         ))}
       </div>
       <div className="flex justify-end">
-        <Button onClick={handleSavePaciente}>Salvar</Button>
+        <Button loading={loading}>Salvar</Button>
         <ToastContainer />
       </div>
     </form>
